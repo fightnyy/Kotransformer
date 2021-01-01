@@ -9,6 +9,10 @@ import logging
 import datetime
 
 import torch
+import torch.nn as nn
+import sentencepiece as spm
+
+
 
 """ Current Working Directory """
 CWD = os.getcwd()
@@ -31,9 +35,13 @@ log_path = 'log/' + today
 
 
 """ dataset """
-#persona_url = 'https://s3.amazonaws.com/datasets.huggingface.co/personachat/personachat_self_original.json'
-#dataset_path = os.path.join(CWD, 'data')
-#batch_size = 32
+dataset_path = os.path.join(CWD, 'data')
+batch_size = 32
+
+"""sentencepiece model"""
+vocab_file = os.path.join(CWD,"dataset/kowiki.model")
+vocab = spm.SentencePieceProcessor()
+vocab.load(vocab_file)
 
 
 
