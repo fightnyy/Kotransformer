@@ -93,6 +93,18 @@ attn_mask = inputs.eq(0).unsqueeze(1).expand(Q.size(0),Q.size(1),K.size(1))
 scores = torch.matmul(Q, K.transpose(-1,-2))
 d_head = 64
 scores.mul_(1/d_head**0.5)
-scores = scores.maksed_fill(attn_mask,-1e9)
-softmax = nn.Softmax(dim=-1) # 가장 연관성이 높은 값 
+scores = scores.masked_fill(attn_mask,-1e9)
+attn_prob = nn.Softmax(dim=-1)(scores) # 가장 연관성이 높은 값 
+attn_prob = torch.tensor(attn_prob)
 context = torch.matmul(attn_prob, V)
+
+n_head = 2
+
+
+W_Q = nn.Linear(d_hidn, n_head * d_head)
+W_K = nn.Linear(d_hidn, n_head*d_head)
+W_V = nn.Linear(d_hidn, n_head * d_head)
+print("W_Q 가 그래서 뭔데?",W_Q)
+batch_size = Q.size(0)
+q_s = W_Q(Q) # 곱하는 결과를 발생함(정확히는 matmul)
+q_
