@@ -77,7 +77,7 @@ input_sums = input_embs + pos_embs
 Scaled Dot Product Attention 
 """
 
-Q = input_sums
+Q = input_sums #size (2, 8 , 128)
 K = input_sums
 V = input_sums
 
@@ -89,5 +89,10 @@ print("PTR of Q : ",Q.data_ptr())
 print("PTR of k : ",K.data_ptr())
 print("PTR of v : ",V.data_ptr())
 
-attn_mask = inputs.eq(0)
-print("what is attenmask : ",attn_mask)
+attn_mask = inputs.eq(0).unsqueeze(1).expand(Q.size(0),Q.size(1),K.size(1))
+scores = torch.matmul(Q, K.transpose(-1,-2))
+d_head = 64
+scores.mul_(1/d_head**0.5)
+scores = scores.maksed_fill(attn_mask,-1e9)
+softmax = nn.Softmax(dim=-1) # 가장 연관성이 높은 값 
+context = torch.matmul(attn_prob, V)
