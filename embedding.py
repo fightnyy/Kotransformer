@@ -107,4 +107,5 @@ W_V = nn.Linear(d_hidn, n_head * d_head)
 print("W_Q 가 그래서 뭔데?",W_Q)
 batch_size = Q.size(0)
 q_s = W_Q(Q) # 곱하는 결과를 발생함(정확히는 matmul)
-q_
+k_s = W_K(K)
+v_s = W_V(V)
