@@ -109,3 +109,10 @@ batch_size = Q.size(0)
 q_s = W_Q(Q) # 곱하는 결과를 발생함(정확히는 matmul)
 k_s = W_K(K)
 v_s = W_V(V)
+batch_size = 2
+q_s = q_s.view(batch_size, -1 ,n_head ,d_head).transpose(1,2)
+k_s = k_s.view(batch_size, -1, n_head, d_head).transpose(1,2)
+v_s = v_s.view(batch_size, -1, n_head, d_head).transpose(1,2)
+
+
+print("attn_mask : ",attn_mask)
