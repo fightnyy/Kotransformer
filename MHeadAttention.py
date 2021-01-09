@@ -5,19 +5,21 @@ import sdpAttention
 import torch
 import torch.nn as nn
 
+
 class MultiHeadAttention(nn.module):
-    def __init__(self, d_hidn, n_head, d_head): #dim of word, num of head, dim of head
+    def __init__(config): #dim of word, num of head, dim of head
         super().init()
-        self.d_hidn = d_hidn
-        self.n_head = n_head
-        self.d_head = d_head
+        self.config = config
+        self.d_hidn = self.config.d_hidn
+        self.n_head = self.config.n_head
+        self.d_head = self.config.d_head
+        self.dropout = self.nn.Dropout(config.dropout)
 
-
-        self.W_Q = nn.Linear(d_hidn, n_head * d_head)
-        self.W_K = nn.Linear(d_hidn, n_head * d_head)
-        self.W_v = nn.Linear(d_hidn, n_head * d_head)
-        self.scaled_dot_attn = sdpAttention(d_head)
-        self.linear = nn.Linear(n_head * d_head , d_hidn)
+        self.W_Q = nn.Linear(self.d_hidn, self.n_head * self.d_head)
+        self.W_K = nn.Linear(self.d_hidn, self.n_head * self.d_head)
+        self.W_V = nn.Linear(self.d_hidn, self.n_head * self.d_head)
+        self.scaled_dot_attn = sdpAttention(self.d_head)
+        self.linear = nn.Linear(self.n_head * self.d_head , self.d_hidn)
 
     def forward(self, Q, K, V, attn_mask):
         batch_size = Q.size(0)
@@ -35,5 +37,5 @@ class MultiHeadAttention(nn.module):
         context = context.transpose(1,2).contiguous().view(batch_size, -1, self.n_head*self.d_head)
 
         output = self.linear(context)
-
+        output = self.dropout(output)
         return output,attn_prob

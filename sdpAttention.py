@@ -3,17 +3,19 @@
 
 import torch.nn as nn
 import torch
-
+from config import config
 
 class ScaledDotProductAttention(nn.Module):
     def __init__(self, d_head):
-        self.config = config
-        super().__init__()
+        super().init()
+        self.config = config.tconfig
+        self.dropout = nn.Dropout(config.dropout)
         self.scale = 1/(d_head**0.5)
 
     def forward (self, Q, K, V, attn_mask):
-        score = torch.matmul(Q, K.transpose(-2, -1)).mul(self.scale)
+        score = torch.matmul(Q, K.transpose(-1, -2)).mul(self.scale)
         score.mask_fill_(attn_mask, -1e9)
         attn_prob = nn.Softmax(dim = -1)(score)
+        attn_prob = self.dropout(attn_prob)
         context = torch.matmul(attn_prob, V)
         return context , attn_prob 
