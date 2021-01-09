@@ -4,8 +4,10 @@
 import torch.nn as nn
 import torch
 
+
 class ScaledDotProductAttention(nn.Module):
     def __init__(self, d_head):
+        self.config = config
         super().__init__()
         self.scale = 1/(d_head**0.5)
 
