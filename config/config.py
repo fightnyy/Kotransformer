@@ -7,15 +7,21 @@
 import os
 import logging
 import datetime
-
+import classconfig
 import torch
 import torch.nn as nn
 import sentencepiece as spm
+
+from os.path import dirname, abspath
 
 
 
 """ Current Working Directory """
 CWD = os.getcwd()
+parent = os.path.dirname(CWD)
+
+"""config.json location"""
+jsonpath = os.path.join(CWD, "config.json")
 
 """ cuda device """
 if torch.cuda.is_available():
@@ -35,14 +41,15 @@ log_path = 'log/' + today
 
 
 """ dataset """
-dataset_path = os.path.join(CWD, 'data')
+dataset_path = os.path.join(parent, 'dataset')
 batch_size = 32
 
 """sentencepiece model"""
-vocab_file = os.path.join(CWD,"dataset/kowiki.model")
+vocab_file = os.path.join(dataset_path ,"kowiki.model")
 vocab = spm.SentencePieceProcessor()
 vocab.load(vocab_file)
 
+tconfig = classconfig.config
 
 
 """ model saving """
