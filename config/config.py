@@ -7,7 +7,6 @@
 import os
 import logging
 import datetime
-import classconfig
 import torch
 import torch.nn as nn
 import sentencepiece as spm
@@ -49,9 +48,25 @@ vocab_file = os.path.join(dataset_path ,"kowiki.model")
 vocab = spm.SentencePieceProcessor()
 vocab.load(vocab_file)
 
-tconfig = classconfig.config
 
 
 """ model saving """
 #model_path = os.path.join(CWD,'model_checkpoints/')
 #weight_PATH =model_path+weight_PATH
+class Config(dict):
+    __getattr__ = dict.__getitem__
+    __setattr__ = dict.__setitem__
+
+
+    @classmethod
+    def load(cls, file):
+         with open(file, 'r') as f:
+            config = json.loads(f.read()) 
+            return Config(config)   
+
+
+"""config.json location"""
+jsonpath = os.path.join(os.getcwd(), "config.json")
+
+path = jsonpath
+tconfig = Config.load(path)

@@ -30,12 +30,6 @@ def get_attn_pad_mask(seq_q, seq_k, i_pad):
 
     return pad_attn_mask
 
-def get_attn_decoder_mask(seq):
-    batch_size, len_seq = seq.size(0), seq.size(1)
-    subsequent_mask = torch.ones_like(seq).unsqueeze(-1).expand(batch_size, len_seq, len_seq)
-    subsequent_mask = torch.triu(diagonal=1)# 대각선 기준으로  위에가 0인상태대각은 모두 1
-
-    return subsequent_mask
 
 
 
@@ -53,26 +47,26 @@ class Encoder(nn.Module):
         self.layers = nn.ModuleList([EncoderLayer(self.config) for _ in range(self.config.n_layer)])
 
         #inputs.size = [batch_size, n_seq_len]
-        def forward(self, inputs):
-            position = torch.arange(inputs(1), device = inputs.device , dtype = inputs.dtype).expand(inputs.size(0), inputs.size(1)).contiguous()+1
-            pos_maks = inputs.eq(self.config.i_pad)
-            position.mask_filled(pos_mask, 0)
+    def forward(self, inputs):
+        position = torch.arange(inputs(1), device = inputs.device , dtype = inputs.dtype).expand(inputs.size(0), inputs.size(1)).contiguous()+1
+        pos_maks = inputs.eq(self.config.i_pad)
+        position.masked_fill_(pos_mask, 0)
             
-            #outputs.size = [batch_size, n_seq_len(token들의 길이), d_hidn]
-            outputs = self.enc_emb(inputs) + self.pos_emb(position)
+        #outputs.size = [batch_size, n_seq_len(token들의 길이), d_hidn]
+        outputs = self.enc_emb(inputs) + self.pos_emb(position)
 
 
-            attn_mask = get_attn_pad_mask(inputs, inputs, self.config.i_pad)
+        attn_mask = get_attn_pad_mask(inputs, inputs, self.config.i_pad)
 
 
-            attn_prob = []
-            for layer in self.layers:
-                outputs, attn_prob = layer.forward(outputs, attn_mask)
-                attn_probs.append(attn_prob)
+        attn_prob = []
+        for layer in self.layers:
+            outputs, attn_prob = layer.forward(outputs, attn_mask)
+            attn_probs.append(attn_prob)
             
-            #output.size = [batch_size, n_seq_len, d_hidn]
-            #attn_probs [n_layer, batch_size, n_seq_len, n_seq_len]
-            return outputs, attn_probs
+        #output.size = [batch_size, n_seq_len, d_hidn]
+        #attn_probs [n_layer, batch_size, n_seq_len, n_seq_len]
+        return outputs, attn_probs
 
 
 

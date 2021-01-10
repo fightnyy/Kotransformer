@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import config
 import json
-
+import os
 class Config(dict):
     __getattr__ = dict.__getitem__
     __setattr__ = dict.__setitem__
@@ -15,6 +14,8 @@ class Config(dict):
             return Config(config)   
 
 
+"""config.json location"""
+jsonpath = os.path.join(os.getcwd(), "config.json")
 
-path = config.jsonpath
+path = jsonpath
 config = Config.load(path)
