@@ -7,10 +7,10 @@ from config import config
 
 class ScaledDotProductAttention(nn.Module):
     def __init__(self, d_head):
-        super().init()
+        super().__init__()
         self.config = config.tconfig
-        self.dropout = nn.Dropout(config.dropout)
-        self.scale = 1/(d_head**0.5)
+        self.dropout = nn.Dropout(self.config.dropout)
+        self.scale = 1/(self.config.d_head**0.5)
 
     def forward (self, Q, K, V, attn_mask):
         score = torch.matmul(Q, K.transpose(-1, -2)).mul(self.scale)

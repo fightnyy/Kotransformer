@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-import encoderlayer 
 import torch
+import torch.nn as nn
 import numpy as np
 
+from encoderlayer import EncoderLayer
 
 def get_sinusoid_encoding_table(n_seq, d_hidn):
     def _cal_angle(position, i_hidn):

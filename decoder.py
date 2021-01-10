@@ -4,7 +4,7 @@ import torch
 from encoder import get_sinusoid_encoding_table
 from encoder import get_attn_pad_mask
 import torch.nn as nn
-from decoder_layer import DecoderLayer
+from decoderlayer import DecoderLayer
 
 def get_attn_decoder_mask(seq):
     batch_size, len_seq = seq.size(0), seq.size(1)
@@ -23,7 +23,7 @@ class Decoder(nn.Module):
         sinusoid_table = torch.FloatTensor(get_sinusoid_encoding_table(self.config.n_dec_seq+1, self.config.d_hidn))
         self.pos_emb = nn.Embedding.from_pretrained(sinusoid_table, freeze = True)
 
-        self.layers = nn.ModuleList([DecoderLayer(self.config) for _ in self.config.n_layer])
+        self.layers = nn.ModuleList([DecoderLayer(self.config) for _ in range(self.config.n_layer)])
 
     #dec_inputs.size =[batch_size, n_dec_seq_len]
     def forward(self, dec_inputs, enc_inputs, enc_outputs):

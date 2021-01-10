@@ -10,11 +10,12 @@ import datetime
 import torch
 import torch.nn as nn
 import sentencepiece as spm
+import json
 
 from os.path import dirname, abspath
 
 
-
+import pdb
 """ Current Working Directory """
 CWD = os.getcwd()
 parent = os.path.dirname(CWD)
@@ -40,9 +41,10 @@ log_path = 'log/' + today
 
 
 """ dataset """
-dataset_path = os.path.join(parent, 'dataset')
+dataset_path = os.path.join(CWD, 'dataset')
+print(dataset_path)
 batch_size = 32
-
+#pdb.set_trace()
 """sentencepiece model"""
 vocab_file = os.path.join(dataset_path ,"kowiki.model")
 vocab = spm.SentencePieceProcessor()
@@ -66,7 +68,6 @@ class Config(dict):
 
 
 """config.json location"""
-jsonpath = os.path.join(os.getcwd(), "config.json")
+jsonpath = os.path.join(CWD, "config/config.json")
 
-path = jsonpath
-tconfig = Config.load(path)
+tconfig = Config.load(jsonpath)

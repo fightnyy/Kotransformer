@@ -12,9 +12,9 @@ dim of feedforward network = d_ff
 class PoswiseFeedForwardNet(nn.Module):
     def __init__(self, config):
         super().__init__()
-
-        self.conv1 = nn.Conv1d(in_channels = config.d_hidn, config.out_channels = d_hidn * 4 , kernel_size=1)
-        self.conv2 = nn.Conv1d(in_channels = config.d_hidn*4 , out_channles = config.d_hidn, kernel_size = 1)
+        self.config = config
+        self.conv1 = nn.Conv1d(in_channels = self.config.d_hidn, out_channels = self.config.d_hidn * 4 , kernel_size=1)
+        self.conv2 = nn.Conv1d(in_channels = self.config.d_hidn*4 , out_channels = self.config.d_hidn, kernel_size = 1)
         self.activation = F.gelu
         self.dropout = nn.Dropout(config.dropout)
 

@@ -1,24 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sdpAttention
+from sdpAttention import ScaledDotProductAttention
 import torch
 import torch.nn as nn
 
 
-class MultiHeadAttention(nn.module):
-    def __init__(config): #dim of word, num of head, dim of head
-        super().init()
+class MultiHeadAttention(nn.Module):
+    def __init__(self, config): #dim of word, num of head, dim of head
+        super().__init__()
         self.config = config
         self.d_hidn = self.config.d_hidn
         self.n_head = self.config.n_head
         self.d_head = self.config.d_head
-        self.dropout = self.nn.Dropout(config.dropout)
+        self.dropout = nn.Dropout(config.dropout)
 
         self.W_Q = nn.Linear(self.d_hidn, self.n_head * self.d_head)
         self.W_K = nn.Linear(self.d_hidn, self.n_head * self.d_head)
         self.W_V = nn.Linear(self.d_hidn, self.n_head * self.d_head)
-        self.scaled_dot_attn = sdpAttention(self.d_head)
+        self.scaled_dot_attn = ScaledDotProductAttention(self.d_head)
         self.linear = nn.Linear(self.n_head * self.d_head , self.d_hidn)
 
     def forward(self, Q, K, V, attn_mask):

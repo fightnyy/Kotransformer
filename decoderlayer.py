@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import torch
-import torch.nn
+import torch.nn as nn
 from MHeadAttention import MultiHeadAttention
-from PFFN import PoswiseFeedForward
+from PFFN import PoswiseFeedForwardNet
 
 class DecoderLayer(nn.Module):
     def __init__(self, config):
@@ -15,7 +15,7 @@ class DecoderLayer(nn.Module):
         self.self_layer_norm1 = nn.LayerNorm(self.config.d_hidn, eps = self.config.layer_norm_epsilon)
         self.dec_enc_attn = MultiHeadAttention(self.config)
         self.self_layer_norm2 = nn.LayerNorm(self.config.d_hidn, eps = self.config.layer_norm_epsilon)
-        self.pos_ffn = PoswiseFeedForward(self.config)
+        self.pos_ffn = PoswiseFeedForwardNet(self.config)
         self.self_layer_norm3 = nn.LayerNorm(self.config.d_hidn, eps = self.config.layer_norm_epsilon)
 
     # 디코더 사진을 보면 알 수 있듯이 맨처음엔 디코더끼리 셀프어텐션을 취하고

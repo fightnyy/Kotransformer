@@ -3,7 +3,8 @@
 
 from encoder import Encoder
 from decoder import Decoder
-
+import torch
+import torch.nn as nn
 class Transformer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -17,7 +18,7 @@ class Transformer(nn.Module):
 
         enc_outputs, enc_self_attn_probs = self.encoder.forward(enc_inputs)
 
-        dec_outputs, self_attn_probs, dec_enc_attn_probs = self.decoer(dec_inputs,enc_inputs, enc_outputs)
+        dec_outputs, self_attn_probs, dec_enc_attn_probs = self.decoder(dec_inputs,enc_inputs, enc_outputs)
 
 
         return dec_outputs, enc_self_attn_probs, self_attn_probs, dec_enc_attn_probs
