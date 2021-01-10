@@ -14,15 +14,15 @@ class EncoderLayer(nn.Module):
         #여기서 inputs의 값은Q라고 생각해도 됨
         #input.shape = [batch_size, n_head, n_seq, d_head]
         #attn_mask.shape = [batch_size, n_seq, n_seq] 
-        def forward(self, inputs, attn_mask):
-            attn_output, attn_prob = self.self_attn.forward(inputs, inputs, inputs, attn_mask)
-            attn_output = self.layer_norm1(inputs+attn_output)
-            pos_output = self.pos_ffnn(attn_output)
-            output = self.layer_norm2(pos_output+attn_output)
+    def forward(self, inputs, attn_mask):
+        attn_output, attn_prob = self.self_attn.forward(inputs, inputs, inputs, attn_mask)
+        attn_output = self.layer_norm1(inputs+attn_output)
+        pos_output = self.pos_ffnn(attn_output)
+        output = self.layer_norm2(pos_output+attn_output)
             
-            #output.shape = [batch_size, n_seq, d_hidn]
-            #attn_prob = [batch_size, n_head, n_seq, n_seq]
-            return output, attn_prob
+        #output.shape = [batch_size, n_seq, d_hidn]
+        #attn_prob = [batch_size, n_head, n_seq, n_seq]
+        return output, attn_prob
 
 
 

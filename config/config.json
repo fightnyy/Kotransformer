@@ -1,6 +1,6 @@
 {
-    "n_enc_vocab": 0,
-    "n_dec_vocab:": 0,
+    "n_enc_vocab": 8007,
+    "n_dec_vocab:": 8007,
     "n_enc_seq": 512,
     "n_dec_seq": 512,
     "n_layer": 12,
