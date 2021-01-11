@@ -25,7 +25,10 @@ class DecoderLayer(nn.Module):
 
         self_att_outputs, self_attn_prob = self.self_attn.forward(dec_inputs, dec_inputs, dec_inputs, self_attn_mask)
         self_att_outputs = self.self_layer_norm1(self_att_outputs+dec_inputs)
-        dec_enc_att_outputs, dec_enc_attn_prob = self.dec_enc_attn.forward(self_att_outputs, self_att_outputs, enc_outputs, dec_enc_attn_mask)
+        # 인코더 디코더 어텐션을 할때는 
+        # K와 V는 encoder attention 한것
+        # Q 는 decoder self-attention 한것
+        dec_enc_att_outputs, dec_enc_attn_prob = self.dec_enc_attn.forward(self_att_outputs, enc_outputs, enc_outputs, dec_enc_attn_mask)
         dec_enc_att_outputs = self.self_layer_norm2(self.dec_enc_att_outputs + self_att_outputs)
 
         ffn_outputs = self.pos_ffn.forward(dec_enc_att_outputs)

@@ -43,7 +43,7 @@ log_path = 'log/' + today
 """ dataset """
 dataset_path = os.path.join(CWD, 'dataset')
 print(dataset_path)
-batch_size = 32
+batch_size = 128
 #pdb.set_trace()
 """sentencepiece model"""
 vocab_file = os.path.join(dataset_path ,"kowiki.model")

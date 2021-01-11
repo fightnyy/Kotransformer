@@ -22,7 +22,7 @@ def prepare_train(vocab, infile, outfile):
             if type(document) != str:
                 continue
             instance = { "id": row['id'], "doc": vocab.encode_as_pieces(document), "label": row['label']}
-            f.write(json.dumps(instance))
+            f.write(json.dumps(instance))#dumps 는 python 객체를 json 형ㅅ태로 만들떄 쓰는것
             f.write("\n")
 
 

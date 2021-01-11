@@ -3,4 +3,5 @@
 
 from transformer import Transformer
 from config import config
-a = Transformer(config.tconfig)
+
+batch_size = config.batch_size
