@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import torch
 import torch.nn as nn
 
 from MHeadAttention import MultiHeadAttention
 from PFFN import PoswiseFeedForwardNet
-
+import pdb
 
 class EncoderLayer(nn.Module):
     def __init__(self, config):
@@ -13,9 +12,9 @@ class EncoderLayer(nn.Module):
         self.config = config
 
         self.self_attn = MultiHeadAttention(self.config)
-        self.layer_norm1 = nn.LayerNorm(self.config.d_head, eps = self.config.layer_norm_epsilon)
+        self.layer_norm1 = nn.LayerNorm(self.config.d_hidn, eps = self.config.layer_norm_epsilon)
         self.pos_ffnn = PoswiseFeedForwardNet(self.config)
-        self.layer_norm2 = nn.LayerNorm(self.config.d_head, eps = self.config.layer_norm_epsilon)
+        self.layer_norm2 = nn.LayerNorm(self.config.d_hidn, eps = self.config.layer_norm_epsilon)
         #여기서 inputs의 값은Q라고 생각해도 됨
         #input.shape = [batch_size, n_head, n_seq, d_head]
         #attn_mask.shape = [batch_size, n_seq, n_seq] 

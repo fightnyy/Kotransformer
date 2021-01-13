@@ -13,7 +13,7 @@ def movie_collate_fn(inputs):
 
     #encoder 와 decoder의 길이가 같아지도록 만들기 위해서 pad를 붙임
     enc_inputs = nn.utils.rnn.pad_sequence(enc_inputs, batch_first = True, padding_value = 0)
-    dec_inputs = nn.utils.rnn.pad_sequence(dec_inputs, batch_first = True, padding_vlaue = 0)
+    dec_inputs = nn.utils.rnn.pad_sequence(dec_inputs, batch_first = True, padding_value = 0)
 
     #Label은  길이가 1 고정이어서 stack 함수를 이용하여 tensor로 만듬
     batch = [torch.stack(labels, dim =0), enc_inputs, dec_inputs]

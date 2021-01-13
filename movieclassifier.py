@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-import torch.nn
+import torch
+import torch.nn as nn
 from transformer import Transformer
 
 class MovieClassification(nn.Module):
@@ -13,7 +13,7 @@ class MovieClassification(nn.Module):
         self.projection = nn.Linear(self.config.d_hidn, self.config.n_output, bias = False)
 
     
-    def forward(self, enc_inputs, dec_intputs)
+    def forward(self, enc_inputs, dec_inputs):
         
         """
         # dec_outputs.size = [batch_size, n_dec_seq_len, d_hidn]

@@ -48,8 +48,8 @@ class Encoder(nn.Module):
 
         #inputs.size = [batch_size, n_seq_len]
     def forward(self, inputs):
-        position = torch.arange(inputs(1), device = inputs.device , dtype = inputs.dtype).expand(inputs.size(0), inputs.size(1)).contiguous()+1
-        pos_maks = inputs.eq(self.config.i_pad)
+        position = torch.arange(inputs.size(1), device = inputs.device , dtype = inputs.dtype).expand(inputs.size(0), inputs.size(1)).contiguous()+1
+        pos_mask = inputs.eq(self.config.i_pad)
         position.masked_fill_(pos_mask, 0)
             
         #outputs.size = [batch_size, n_seq_len(token들의 길이), d_hidn]
@@ -59,7 +59,7 @@ class Encoder(nn.Module):
         attn_mask = get_attn_pad_mask(inputs, inputs, self.config.i_pad)
 
 
-        attn_prob = []
+        attn_probs = []
         for layer in self.layers:
             outputs, attn_prob = layer.forward(outputs, attn_mask)
             attn_probs.append(attn_prob)
