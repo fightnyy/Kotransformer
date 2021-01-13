@@ -47,7 +47,7 @@ class Decoder(nn.Module):
 
         for layer in self.layers:
 
-            dec_outputs, self_attn_prob, dec_enc_attn_prob = layer.forward(dec_inputs, enc_outputs, dec_self_attn_mask, dec_enc_attn_mask)
+            dec_outputs, self_attn_prob, dec_enc_attn_prob = layer.forward(dec_outputs, enc_outputs, dec_self_attn_mask, dec_enc_attn_mask)
             self_attn_probs.append(self_attn_prob)
             dec_enc_attn_probs.append(dec_enc_attn_prob)
 

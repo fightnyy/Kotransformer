@@ -4,7 +4,7 @@
 from sdpAttention import ScaledDotProductAttention
 import torch
 import torch.nn as nn
-
+import pdb
 
 class MultiHeadAttention(nn.Module):
     def __init__(self, config): #dim of word, num of head, dim of head
@@ -23,7 +23,7 @@ class MultiHeadAttention(nn.Module):
 
     def forward(self, Q, K, V, attn_mask):
         batch_size = Q.size(0)
-
+        
         q_s = self.W_Q(Q).view(batch_size, -1, self.n_head, self.d_head).transpose(1, 2) #for one head you have number of input which consist of d_head
         k_s = self.W_K(K).view(batch_size, -1, self.n_head, self.d_head).transpose(1, 2)
         v_s = self.W_V(V).view(batch_size, -1, self.n_head, self.d_head).transpose(1, 2)

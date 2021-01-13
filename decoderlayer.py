@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import pdb
 import torch
 import torch.nn as nn
 from MHeadAttention import MultiHeadAttention
@@ -22,14 +23,13 @@ class DecoderLayer(nn.Module):
     # 그 이후 인코더의 Key, Query와 디코더 셀프어텐션 한 Value끼리 어텐션을 취하기 때문에
     # 인코더에 비해 입력파라미터 수가  많은 것을 볼 수 있다
     def forward(self, dec_inputs, enc_outputs, self_attn_mask, dec_enc_attn_mask):
-
         self_att_outputs, self_attn_prob = self.self_attn.forward(dec_inputs, dec_inputs, dec_inputs, self_attn_mask)
         self_att_outputs = self.self_layer_norm1(self_att_outputs+dec_inputs)
         # 인코더 디코더 어텐션을 할때는 
         # K와 V는 encoder attention 한것
         # Q 는 decoder self-attention 한것
         dec_enc_att_outputs, dec_enc_attn_prob = self.dec_enc_attn.forward(self_att_outputs, enc_outputs, enc_outputs, dec_enc_attn_mask)
-        dec_enc_att_outputs = self.self_layer_norm2(self.dec_enc_att_outputs + self_att_outputs)
+        dec_enc_att_outputs = self.self_layer_norm2(dec_enc_att_outputs + self_att_outputs)
 
         ffn_outputs = self.pos_ffn.forward(dec_enc_att_outputs)
         ffn_outputs = self.self_layer_norm3(ffn_outputs)
