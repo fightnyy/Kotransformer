@@ -94,7 +94,9 @@ if __name__ == '__main__':
     print("config : ",config.tconfig)
     print("="*10)
     
+   
     model = MovieClassification(config.tconfig)
+    model = nn.DataParallel(model)
     model.to(config.tconfig.device)
 
     criterion = torch.nn.CrossEntropyLoss()
