@@ -55,7 +55,7 @@ vocab.load(vocab_file)
 
 
 """ model saving """
-#model_path = os.path.join(CWD,'model_checkpoints/')
+check_path = os.path.join(CWD,'model_checkpoints/transformer.pth')
 #weight_PATH =model_path+weight_PATH
 class Config(dict):
     __getattr__ = dict.__getitem__

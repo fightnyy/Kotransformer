@@ -110,4 +110,9 @@ if __name__ == '__main__':
         losses.append(loss)
         scores.append(score)
 
+    torch.save(model.state_dict(), config.model_path)
+    plt.plot(loss)
+    plt.xlabel("epoch")
+    plt.ylabel("loss")
+
 
