@@ -5,8 +5,19 @@ import torch.nn as nn
 import json
 
 from tqdm import tqdm
+from config import config
 
 
+"""데이터 로더"""
+def build_data_loader(vocab, infile, args, shuffle = True):
+    dataset = MovieDataset(vocab, infile)
+    if 1< args.n_gpu and shuffle:
+        sampler = torch.utils.data.distributed.DistributedSampler(dataset)
+        loader = torch.utils.data.DataLoader(dataset, batch_size=config.tconfig.batch_size, sampler = sampler, collate_fn =movie_collate_fn)
+    else :
+        sampler = None
+        loader = torch.utils.data.DataLoader(dataset, batch_size=config.tconfig.batch_size, sampler=sampler, shuffle=shuffle, collate_fn = movie_collate_fn) 
+    return loader, sampler
 
 def movie_collate_fn(inputs):
     labels, enc_inputs, dec_inputs = list(zip(*inputs))
