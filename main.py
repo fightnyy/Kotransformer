@@ -176,7 +176,10 @@ if __name__ == '__main__':
         args.n_gpu = 0
     print("available GPU : ",args.n_gpu)
     if 1 < args.n_gpu:
-        mp.spawn(train_model, args= (args.n_gpu,args), nprocs = args.n_gpu, join = True)
+        mp.spawn(train_model,
+             args=(args.n_gpu, args),
+             nprocs=args.n_gpu,
+             join=True)
     else:
         train_model(0 if args.gpu is None else args.gpu, args.n_gpu, args)
 
