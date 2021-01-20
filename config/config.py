@@ -45,7 +45,7 @@ dataset_path = os.path.join(CWD, 'dataset')
 print(dataset_path)
 train_data = os.path.join(dataset_path, "ratings_train.json")
 test_data = os.path.join(dataset_path , "ratings_test.json")
-batch_size = 128
+batch_size = 4
 #pdb.set_trace()
 """sentencepiece model"""
 vocab_file = os.path.join(dataset_path ,"kowiki.model")
