@@ -17,10 +17,9 @@ out_file = "kowiki.txt"
 seperator = "␝"
 if os.path.exists(out_file):
     print("kowiki.txt is already exist")
-else :
-    df =pd.read_csv(in_file, sep = seperator, engine="python")
+else:
+    df = pd.read_csv(in_file, sep=seperator, engine="python")
     with open(out_file, "w") as f:
         for index, row in df.iterrows():
-            f.write(row["text"]) # title 과 text 가 중복되어 하나만 저장
-            f.write("\n\n\n\n") # 구분자
-
+            f.write(row["text"])  # title 과 text 가 중복되어 하나만 저장
+            f.write("\n\n\n\n")  # 구분자

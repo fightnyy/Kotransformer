@@ -14,21 +14,27 @@ vocab을 tokenize 해서 json 파일 형태로 저장
 다시 해줘야 한다. => 시간 오래걸림.
 """
 
+
 def prepare_train(vocab, infile, outfile):
-    df = pd.read_csv(infile, sep = '\t', engine='python')
-    with open(outfile, "w")as f:
+    df = pd.read_csv(infile, sep="\t", engine="python")
+    with open(outfile, "w") as f:
         for index, row in df.iterrows():
-            document = row['document']
+            document = row["document"]
             if type(document) != str:
                 continue
-            instance = { "id": row['id'], "doc": vocab.encode_as_pieces(document), "label": row['label']}
-            f.write(json.dumps(instance))#dumps 는 python 객체를 json 형ㅅ태로 만들떄 쓰는것
+            instance = {
+                "id": row["id"],
+                "doc": vocab.encode_as_pieces(document),
+                "label": row["label"],
+            }
+            f.write(json.dumps(instance))  # dumps 는 python 객체를 json 형ㅅ태로 만들떄 쓰는것
             f.write("\n")
 
 
 def main():
     prepare_train(vocab, "ratings_train.txt", "ratings_train.json")
-    prepare_train(vocab,"ratings_test.txt", "ratings_test.json" )
-if __name__ == '__main__':
+    prepare_train(vocab, "ratings_test.txt", "ratings_test.json")
+
+
+if __name__ == "__main__":
     main()
-    

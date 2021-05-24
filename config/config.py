@@ -16,6 +16,7 @@ from os.path import dirname, abspath
 
 
 import pdb
+
 """ Current Working Directory """
 CWD = os.getcwd()
 parent = os.path.dirname(CWD)
@@ -31,42 +32,40 @@ else:
 
 
 """ logger """
-logger = logging.getLogger('log')
+logger = logging.getLogger("log")
 logger.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(message)s')
+formatter = logging.Formatter("%(message)s")
 now = datetime.datetime.now()
-today = '%s-%s-%s' % (now.year, now.month, now.day)
-current_time = '%s-%s-%s' % (now.hour, now.minute, now.second)
-log_path = 'log/' + today
+today = "%s-%s-%s" % (now.year, now.month, now.day)
+current_time = "%s-%s-%s" % (now.hour, now.minute, now.second)
+log_path = "log/" + today
 
 
 """ dataset """
-dataset_path = os.path.join(CWD, 'dataset')
+dataset_path = os.path.join(CWD, "dataset")
 print(dataset_path)
 train_data = os.path.join(dataset_path, "ratings_train.json")
-test_data = os.path.join(dataset_path , "ratings_test.json")
+test_data = os.path.join(dataset_path, "ratings_test.json")
 batch_size = 4
-#pdb.set_trace()
+# pdb.set_trace()
 """sentencepiece model"""
-vocab_file = os.path.join(dataset_path ,"kowiki.model")
+vocab_file = os.path.join(dataset_path, "kowiki.model")
 vocab = spm.SentencePieceProcessor()
 vocab.load(vocab_file)
 
 
-
 """ model saving """
-check_path = os.path.join(CWD,'model_checkpoints/transformer.pth')
-#weight_PATH =model_path+weight_PATH
+check_path = os.path.join(CWD, "model_checkpoints/transformer.pth")
+# weight_PATH =model_path+weight_PATH
 class Config(dict):
     __getattr__ = dict.__getitem__
     __setattr__ = dict.__setitem__
 
-
     @classmethod
     def load(cls, file):
-         with open(file, 'r') as f:
-            config = json.loads(f.read()) 
-            return Config(config)   
+        with open(file, "r") as f:
+            config = json.loads(f.read())
+            return Config(config)
 
 
 """config.json location"""
